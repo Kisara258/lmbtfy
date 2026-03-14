@@ -260,7 +260,7 @@ function startTutorial(query) {
             setTips("3、点击下“百度一下”按钮");
 
             clickElementWithGuide(searchBtn, () => {
-              setTips("怎么样，学会了吗？");
+              setTips("对你而言就是这么困难吗...");
 
               addTimeout(() => {
                 const target =
