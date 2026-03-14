@@ -69,111 +69,9 @@ function clearAllTimers() {
   }
 }
 
-function moveGuideToElement(el) {
-  const rect = el.getBoundingClientRect();
-  const x = rect.left + rect.width / 2 + window.scrollX;
-  const y = rect.top + rect.height / 2 + window.scrollY;
-
-  guide.style.left = x + "px";
-  guide.style.top = y + "px";
-  guide.style.display = "block";
-}
-
-function guidePulse() {
-  guide.classList.remove("active");
-  void guide.offsetWidth; // 强制刷新，让动画可重复触发
-  guide.classList.add("active");
-}
-
-function hideGuide() {
-  guide.style.display = "none";
-  guide.classList.remove("active");
-}
-
-// =========================
-// 4. 提交表单：生成分享链接
-// =========================
-searchForm.addEventListener("submit", function (e) {
-  e.preventDefault();
-
-  // 演示模式下，不允许正常提交
-  if (tutorialQuery) return;
-
-  const question = kw.value.trim();
-
-  if (!question) {
-    setTips("先输入一点内容喵~");
-    kw.focus();
-    return;
-  }
-
-  const link = buildShareLink(question);
-  shareUrl.value = link;
-  outputPanel.style.display = "block";
-  setTips("↓↓↓ 复制下面的链接，发给不会百度的人");
-  shareUrl.focus();
-  shareUrl.select();
-});
-
-// =========================
-// 5. 复制链接
-// =========================
-copyBtn.addEventListener("click", async function () {
-  const text = shareUrl.value.trim();
-
-  if (!text) {
-    setTips("还没有可复制的链接哦");
-    return;
-  }
-
-  try {
-    if (navigator.clipboard && window.isSecureContext) {
-      await navigator.clipboard.writeText(text);
-    } else {
-      shareUrl.focus();
-      shareUrl.select();
-      document.execCommand("copy");
-    }
-    setTips("复制成功！");
-  } catch (err) {
-    setTips("复制失败，请手动复制");
-  }
-});
-
-// =========================
-// 6. 预览链接
-// =========================
-previewBtn.addEventListener("click", function () {
-  const text = shareUrl.value.trim();
-
-  if (!text) {
-    setTips("还没有可预览的链接哦");
-    return;
-  }
-
-  window.open(text, "_blank");
-});
-
-// =========================
-// 7. 停止演示
-// =========================
-stopBtn.addEventListener("click", function () {
-  clearAllTimers();
-  hideGuide();
-  stopBtn.style.display = "none";
-
-  kw.value = tutorialQuery || "";
-  tutorialQuery = null;
-  setTips("输入一个问题，然后点击百度一下");
-});
-
-// =========================
-// 8. 自动演示逻辑
-// =========================
-
 function showGuideAt(x = 20, y = 20) {
   guide.style.left = x + "px";
-  guide.style.top = y + "px";
+  guide。style.top = y + "px";
   guide.classList.add("show");
 }
 
@@ -205,6 +103,99 @@ function guideClick() {
     guide.classList.remove("clicking");
   }, 220);
 }
+
+function moveGuideToElement(el) {
+  const rect = el.getBoundingClientRect();
+  const x = rect.left + rect.width / 2 + window.scrollX;
+  const y = rect.top + rect.height / 2 + window.scrollY;
+
+  guide.style.left = x + "px";
+  guide.style.top = y + "px";
+  guide.style.display = "block";
+}
+
+
+// =========================
+// 4. 提交表单：生成分享链接
+// =========================
+searchForm.addEventListener("submit", function (e) {
+  e.preventDefault();
+
+  // 演示模式下，不允许正常提交
+  if (tutorialQuery) return;
+
+  const question = kw.value.trim();
+
+  if (!question) {
+    setTips("先输入一点内容喵~");
+    kw.focus();
+    return;
+  }
+
+  const link = buildShareLink(question);
+  shareUrl.value = link;
+  outputPanel。style.display = "block";
+  setTips("↓↓↓ 复制下面的链接，发给不会百度的人");
+  shareUrl.focus();
+  shareUrl.select();
+});
+
+// =========================
+// 5. 复制链接
+// =========================
+copyBtn。addEventListener("click", async function () {
+  const text = shareUrl.value.trim();
+
+  if (!text) {
+    setTips("还没有可复制的链接哦");
+    return;
+  }
+
+  try {
+    if (navigator.clipboard && window.isSecureContext) {
+      await navigator.clipboard.writeText(text);
+    } else {
+      shareUrl.focus();
+      shareUrl.select();
+      document。execCommand("copy");
+    }
+    setTips("复制成功！");
+  } catch (err) {
+    setTips("复制失败，请手动复制");
+  }
+});
+
+// =========================
+// 6. 预览链接
+// =========================
+previewBtn。addEventListener("click", function () {
+  const text = shareUrl.value.trim();
+
+  if (!text) {
+    setTips("还没有可预览的链接哦");
+    return;
+  }
+
+  window.open(text, "_blank");
+});
+
+// =========================
+// 7. 停止演示
+// =========================
+stopBtn。addEventListener("click"， function () {
+  clearAllTimers();
+  hideGuide();
+  stopBtn.style.display = "none";
+
+  kw.value = tutorialQuery || "";
+  tutorialQuery = null;
+  setTips("输入一个问题，然后点击百度一下");
+});
+
+// =========================
+// 8. 自动演示逻辑
+// =========================
+
 
 function clickElementWithGuide(el, afterClick) {
   moveGuideToElement(el, 800);
