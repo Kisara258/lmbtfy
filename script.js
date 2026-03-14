@@ -70,19 +70,24 @@ function clearAllTimers() {
 }
 
 function showGuideAt(x = 20, y = 20) {
-  guide.style.left = x + "px";
-  guide。style.top = y + "px";
+  guide.style.transition = "none";
+  guide.style.left = x + window.scrollX + "px";
+  guide.style.top = y + window.scrollY + "px";
   guide.classList.add("show");
+
+  // 强制重绘，避免后续 transition 不生效
+  void guide.offsetWidth;
 }
 
 function hideGuide() {
   guide.classList.remove("show");
+  guide.classList.remove("clicking");
 }
 
 function moveGuideToElement(el, duration = 800) {
   const rect = el.getBoundingClientRect();
-  const x = rect.left + rect.width / 2;
-  const y = rect.top + rect.height / 2;
+  const x = rect.left + rect.width / 2 + window.scrollX;
+  const y = rect.top + rect.height / 2 + window.scrollY;
 
   guide.style.transition =
     `left ${duration}ms cubic-bezier(0.22, 1, 0.36, 1),
@@ -92,6 +97,7 @@ function moveGuideToElement(el, duration = 800) {
 
   guide.style.left = x + "px";
   guide.style.top = y + "px";
+  guide.classList.add("show");
 }
 
 function guideClick() {
@@ -103,17 +109,6 @@ function guideClick() {
     guide.classList.remove("clicking");
   }, 220);
 }
-
-function moveGuideToElement(el) {
-  const rect = el.getBoundingClientRect();
-  const x = rect.left + rect.width / 2 + window.scrollX;
-  const y = rect.top + rect.height / 2 + window.scrollY;
-
-  guide.style.left = x + "px";
-  guide.style.top = y + "px";
-  guide.style.display = "block";
-}
-
 
 // =========================
 // 4. 提交表单：生成分享链接
@@ -134,7 +129,7 @@ searchForm.addEventListener("submit", function (e) {
 
   const link = buildShareLink(question);
   shareUrl.value = link;
-  outputPanel。style.display = "block";
+  outputPanel.style.display = "block";
   setTips("↓↓↓ 复制下面的链接，发给不会百度的人");
   shareUrl.focus();
   shareUrl.select();
@@ -143,7 +138,7 @@ searchForm.addEventListener("submit", function (e) {
 // =========================
 // 5. 复制链接
 // =========================
-copyBtn。addEventListener("click", async function () {
+copyBtn.addEventListener("click", async function () {
   const text = shareUrl.value.trim();
 
   if (!text) {
@@ -157,7 +152,7 @@ copyBtn。addEventListener("click", async function () {
     } else {
       shareUrl.focus();
       shareUrl.select();
-      document。execCommand("copy");
+      document.execCommand("copy");
     }
     setTips("复制成功！");
   } catch (err) {
@@ -168,7 +163,7 @@ copyBtn。addEventListener("click", async function () {
 // =========================
 // 6. 预览链接
 // =========================
-previewBtn。addEventListener("click", function () {
+previewBtn.addEventListener("click", function () {
   const text = shareUrl.value.trim();
 
   if (!text) {
@@ -182,7 +177,7 @@ previewBtn。addEventListener("click", function () {
 // =========================
 // 7. 停止演示
 // =========================
-stopBtn。addEventListener("click"， function () {
+stopBtn.addEventListener("click", function () {
   clearAllTimers();
   hideGuide();
   stopBtn.style.display = "none";
@@ -195,8 +190,6 @@ stopBtn。addEventListener("click"， function () {
 // =========================
 // 8. 自动演示逻辑
 // =========================
-
-
 function clickElementWithGuide(el, afterClick) {
   moveGuideToElement(el, 800);
 
@@ -239,11 +232,11 @@ function startTutorial(query) {
       keepCaretAtEnd(kw);
 
       typingTimer = setInterval(() => {
-        kw.value = query.slice(0, i);
+        kw.value = query.slice(0, i + 1);
         keepCaretAtEnd(kw);
         i++;
 
-        if (i > query.length) {
+        if (i >= query.length) {
           clearInterval(typingTimer);
           typingTimer = null;
 
@@ -266,6 +259,7 @@ function startTutorial(query) {
     });
   }, 600);
 }
+
 // =========================
 // 9. 页面初始化
 // =========================
