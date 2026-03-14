@@ -1,0 +1,237 @@
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  font-family: "Microsoft YaHei", sans-serif;
+  background: #ffffff;
+  color: #222;
+  min-height: 100vh;
+}
+
+.page {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+.main {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 40px 16px 120px;
+}
+
+.title {
+  text-align: center;
+  margin-bottom: 24px;
+  font-weight: 800;
+  font-size: 30px;
+    
+}
+
+.baidu-logo {
+  width: 160px;
+  max-width: 80%;
+  height: auto;
+  display: inline-block;
+}
+
+.baidu-word {
+  display: inline-block;
+  margin: 0 4px;
+  font-weight: 900;
+  letter-spacing: 2px;
+}
+
+.b1 { color: #2932e1; }
+.b2 { color: #e43d30; }
+.b3 { color: #f4b400; }
+.b4 { color: #2932e1; }
+
+.search-box {
+  width: 100%;
+  max-width: 600px;
+  position: relative;
+}
+
+.search-form {
+  display: flex;
+  align-items: stretch;
+  width: 100%;
+}
+
+.search-input {
+  flex: 1;
+  height: 48px;
+  border: 2px solid #c4c7ce;
+  border-right: none;
+  border-radius: 12px 0 0 12px;
+  padding: 0 16px;
+  font-size: 16px;
+  outline: none;
+  transition: border-color 0.2s ease;
+}
+
+.search-input:hover {
+  border-color: #9aa0a6;
+}
+
+.search-input:focus {
+  border-color: #4e6ef2;
+}
+
+.search-btn {
+  width: 118px;
+  border: none;
+  border-radius: 0 12px 12px 0;
+  background: #4e6ef2;
+  color: white;
+  font-size: 16px;
+  cursor: pointer;
+  transition: background 0.2s ease;
+}
+
+.search-btn:hover {
+  background: #3f5ee0;
+}
+
+.tips {
+  margin-top: 24px;
+  text-align: center;
+  color: #7a7f87;
+  min-height: 24px;
+  font-size: 15px;
+}
+
+.stop-btn {
+  display: none;
+  margin: 28px auto 0;
+  border: none;
+  background: #f1f3f4;
+  color: #666;
+  padding: 10px 18px;
+  border-radius: 999px;
+  cursor: pointer;
+  font-size: 14px;
+}
+
+.stop-btn:hover {
+  background: #e8eaed;
+}
+
+.output-panel {
+  display: none;
+  width: 100%;
+  max-width: 520px;
+  margin: 22px auto 0;
+}
+
+.output-panel textarea {
+  width: 100%;
+  min-height: 90px;
+  resize: vertical;
+  border: 1px solid #d0d7de;
+  border-radius: 8px;
+  padding: 10px 12px;
+  font-size: 14px;
+  line-height: 1.6;
+  outline: none;
+}
+
+.output-panel textarea:focus {
+  border-color: #4e6ef2;
+  box-shadow: 0 0 0 3px rgba(78, 110, 242, 0.12);
+}
+
+.tool-row {
+  margin-top: 10px;
+  display: flex;
+  justify-content: flex-end;
+  gap: 10px;
+}
+
+.tool-btn {
+  border: none;
+  background: #4e6ef2;
+  color: white;
+  border-radius: 8px;
+  padding: 8px 14px;
+  cursor: pointer;
+  font-size: 14px;
+}
+
+.tool-btn:hover {
+  background: #3f5ee0;
+}
+
+.footer {
+  position: fixed;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: #fafafa;
+  border-top: 1px solid #eee;
+  padding: 10px 16px;
+  font-size: 12px;
+  color: #888;
+  text-align: center;
+}
+
+.guide {
+  position: fixed;
+  left: 20px;
+  top: 20px;
+  width: 22px;
+  height: 22px;
+  border-radius: 50%;
+  background: rgba(78, 110, 242, 0.18);
+  border: 2px solid #4e6ef2;
+  box-shadow: 0 4px 18px rgba(78, 110, 242, 0.22);
+  pointer-events: none;
+  z-index: 9999;
+  opacity: 0;
+  transform: translate(-50%, -50%) scale(1);
+  transition:
+    left 0.8s cubic-bezier(0.22, 1, 0.36, 1),
+    top 0.8s cubic-bezier(0.22, 1, 0.36, 1),
+    opacity 0.25s ease,
+    transform 0.2s ease;
+}
+
+.guide::after {
+  content: "";
+  position: absolute;
+  inset: -6px;
+  border-radius: 50%;
+  border: 2px solid rgba(78, 110, 242, 0.45);
+  opacity: 0;
+  transform: scale(0.8);
+}
+
+.guide.show {
+  opacity: 1;
+}
+
+.guide.clicking {
+  transform: translate(-50%, -50%) scale(0.82);
+}
+
+.guide.clicking::after {
+  animation: guide-ripple 0.55s ease-out;
+}
+
+@keyframes guide-ripple {
+  0% {
+    opacity: 0.9;
+    transform: scale(0.8);
+  }
+
+  100% {
+    opacity: 0;
+    transform: scale(2);
+  }
+}
